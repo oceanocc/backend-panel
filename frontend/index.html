@@ -166,6 +166,51 @@
                         </div>
                     </div>
                       
+                    <!-- Modificar estado de venta -->
+                    <div id="componente_estado_de_ventas_modificar" class="modal" tabindex="-1">
+                        <div class="modal-dialog">
+                            <form class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Modificar estado de venta</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="notifications"></div>
+                                    <input type="hidden" name="id">
+                                    <table class="table table-striped">
+                                        <tr>
+                                            <td>Usuario</td>
+                                            <td><input type="input" name="usuario" class="form-control" required maxlength="100"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>DN</td>
+                                            <td><input type="input" name="dn" class="form-control" required maxlength="100"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Status</td>
+                                            <td><input type="input" name="status" class="form-control" maxlength="100"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Fecha de encuesta</td>
+                                            <td><input type="date" name="fecha_encuesta" class="form-control" required></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Fecha de activaci&oacute;n</td>
+                                            <td><input type="date" name="fecha_activacion" class="form-control"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Fecha de alta</td>
+                                            <td><input type="date" name="fecha_alta" class="form-control"></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                    <button type="submit" class="btn btn-primary">Modificar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
 
                 </section>
             </main>

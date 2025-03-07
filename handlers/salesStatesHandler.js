@@ -20,7 +20,8 @@ handler.get('/salesStates/:from/:to', isAuthenticated, async (req, res) =>
             const [rows] = await pool.query
             (
                 `SELECT
-                    usuario
+                    id
+                    ,usuario
                     ,dn
                     ,status
                     ,DATE_FORMAT(fecha_encuesta, '%Y-%m-%d') fecha_encuesta
@@ -37,7 +38,7 @@ handler.get('/salesStates/:from/:to', isAuthenticated, async (req, res) =>
     }
     const sales = await getSalesByDateRange(from, to);
 
-    res.json({ sales });
+    res.json({ data: sales });
 });
 
 // /sales/add

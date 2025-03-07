@@ -58,7 +58,7 @@ $(function()
         {
             $('#componente_estado_de_ventas_leer table.results tbody').empty();
 
-            if (response.sales.length == 0)
+            if (response.data.length == 0)
             {
                 $('.notifications').empty();
                 $('.notifications').append(
@@ -71,17 +71,17 @@ $(function()
                 return;
             }
             $('.notifications').empty();
-            $.each(response.sales, function(index, sale) 
+            $.each(response.data, function(index, row) 
             {
                 $('#componente_estado_de_ventas_leer table.results tbody').append(`
-                    <tr>
-                        <td>${sale.usuario}</td>
-                        <td>${sale.dn}</td>
-                        <td>${sale.status}</td>
-                        <td>${sale.fecha_encuesta == null ? '' : sale.fecha_encuesta}</td>
-                        <td>${sale.fecha_activacion == null ? '' : sale.fecha_activacion}</td>
-                        <td>${sale.fecha_alta == null ? '' : sale.fecha_alta}</td>
-                        <td>${transformarFecha(sale.fecha_actualizacion)}</td>
+                    <tr row-id="${row.id}">
+                        <td>${row.usuario}</td>
+                        <td>${row.dn}</td>
+                        <td>${row.status}</td>
+                        <td>${row.fecha_encuesta == null ? '' : row.fecha_encuesta}</td>
+                        <td>${row.fecha_activacion == null ? '' : row.fecha_activacion}</td>
+                        <td>${row.fecha_alta == null ? '' : row.fecha_alta}</td>
+                        <td>${transformarFecha(row.fecha_actualizacion)}</td>
                     </tr>`
                 );
 
