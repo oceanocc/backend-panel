@@ -206,8 +206,30 @@
                                     </table>
                                 </div>
                                 <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger delete">Borrar</button>
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                                     <button type="submit" class="btn btn-primary">Modificar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Borrar estado de venta -->
+                    <div id="componente_estado_de_ventas_borrar" class="modal" tabindex="-1">
+                        <div class="modal-dialog">
+                            <form class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Borrar estado de venta</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="notifications"></div>
+                                    <input type="hidden" name="id">
+                                    <p>Seguro desea eliminar el registro ID <strong class="id"></strong></p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                    <button type="submit" class="btn btn-primary">Borrar</button>
                                 </div>
                             </form>
                         </div>

@@ -230,8 +230,64 @@ $(function()
         })
         .catch(error =>
         {
-            $('#componente_estado_de_ventas_crear .notifications').empty();
-            $('#componente_estado_de_ventas_crear .notifications').append(
+            $('#componente_estado_de_ventas_modificar .notifications').empty();
+            $('#componente_estado_de_ventas_modificar .notifications').append(
+            `
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    ${error}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            `);
+        });
+    });
+
+    // Borrar
+
+    $(document).on('click', '#componente_estado_de_ventas_modificar .delete', function(e)
+    {
+        e.preventDefault();
+
+        let id = $('#componente_estado_de_ventas_modificar input[name=id]').val();
+        $('#componente_estado_de_ventas_borrar input[name=id]').val(id);
+        $('#componente_estado_de_ventas_borrar strong.id').html(id);
+        $('#componente_estado_de_ventas_borrar').modal('show');
+    });
+
+    $('#componente_estado_de_ventas_borrar form').submit(function(e)
+    {
+        e.preventDefault();
+
+        var formData = new FormData(this);
+        fetch(`/salesStates?id=${formData.get('id')}`,
+        {
+            method: 'DELETE'
+        })
+        .then(response => 
+        {
+            if(response.ok)
+            {
+                $('#componente_estado_de_ventas_leer form').submit();
+                $('#componente_estado_de_ventas_modificar .notifications').empty();
+                $('#componente_estado_de_ventas_borrar .notifications').empty();
+                $('#componente_estado_de_ventas_modificar').modal('hide');
+                $('#componente_estado_de_ventas_borrar').modal('hide');
+            }
+            else
+            {
+                $('#componente_estado_de_ventas_borrar .notifications').empty();
+                $('#componente_estado_de_ventas_borrar .notifications').append(
+                `
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        Error al borrar el estado de venta
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                `);
+            }
+        })
+        .catch(error =>
+        {
+            $('#componente_estado_de_ventas_borrar .notifications').empty();
+            $('#componente_estado_de_ventas_borrar .notifications').append(
             `
                 <div class="alert alert-warning alert-dismissible fade show" role="alert">
                     ${error}

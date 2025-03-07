@@ -106,12 +106,12 @@ handler.put('/salesStates/', isAuthenticated, async (req, res) =>
     try
     {
         const [result] = await pool.query(
-        'UPDATE estado_de_ventas SET usuario = ?, dn = ?, status = ?, fecha_encuesta = ?, fecha_activacion = ?, fecha_alta = ? WHERE id = ?',
-        [usuario, dn, status, fecha_encuesta, fecha_activacion, fecha_alta, id]
+            'UPDATE estado_de_ventas SET usuario = ?, dn = ?, status = ?, fecha_encuesta = ?, fecha_activacion = ?, fecha_alta = ? WHERE id = ?',
+            [usuario, dn, status, fecha_encuesta, fecha_activacion, fecha_alta, id]
         );
 
         // Envía una respuesta de éxito
-        res.status(201).json({ message: 'Estado de venta guardado correctamente', id: result.insertId });
+        res.status(201).json({ message: 'Estado de venta guardado correctamente'});
     }
     catch (error)
     {
@@ -121,4 +121,27 @@ handler.put('/salesStates/', isAuthenticated, async (req, res) =>
     }
 });
 
+// /salesStates DELETE
+handler.delete('/salesStates/', isAuthenticated, async (req, res) =>
+{
+    let { id } = req.query;
+    
+    try
+    {
+        const [result] = await pool.query(
+            'DELETE FROM estado_de_ventas WHERE id = ?',
+            [id]
+        );
+
+        // Envía una respuesta de éxito
+        res.status(201).json({ message: 'Estado de venta borrado correctamente'});
+    }
+    catch (error)
+    {
+        // Maneja los errores
+        console.error('Error al borrar el estado de venta:', error);
+        res.status(500).json({ message: 'Error al borrar el estado de venta' });
+    }
+});
+    
 export default handler;
