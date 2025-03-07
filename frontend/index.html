@@ -8,6 +8,7 @@
         <meta name="generator" content="Hugo 0.88.1">
         <title>Panel de Estados de Ventas - B&P</title>
 
+        <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"  crossorigin="anonymous"></script>
@@ -48,20 +49,28 @@
         <div class="row">
             <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
                 <div class="position-sticky pt-3">
+
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link active" href="#">
+                            <a id="salesStates_btn" class="nav-link active" href="#" onclick="menu('salesStates')">
                                 <span data-feather="home"></span>
                                 Estados de Venta
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a id="users_btn" class="nav-link" href="#" onclick="menu('users')">
+                                <span data-feather="user"></span>
+                                Usuarios
+                            </a>
+                        </li>
                     </ul>
+
                 </div>
             </nav>
 
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
 
-                <section id="estado_de_ventas_section">
+                <section id="salesStates_section">
 
                     <!-- Leer estados de venta -->
                     <div id="componente_estado_de_ventas_leer">
@@ -262,6 +271,168 @@
                     </div>
                       
                 </section>
+
+                <section id="users_section" style="display: none;">
+
+                    <!-- Leer estados de venta -->
+                    <div id="component_users_read">
+                        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                            <h1 class="h2">Usuarios</h1>
+                            <div class="btn-toolbar mb-2 mb-md-0">
+                                <a class="btn btn-sm btn-outline-secondary me-2" href="#" onclick="ExportTableToCSV('#component_users_read table.results')">
+                                    Descargar
+                                </a>
+                                <a class="btn btn-sm btn-outline-secondary me-2" href="#" data-bs-toggle="modal" data-bs-target="#component_users_add">
+                                    A&ntilde;adir
+                                </a>
+                            </div>
+                        </div>
+        
+                        <div class="mt-2 notifications"></div>
+                        <table class="table results">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Usuario</th>
+                                    <th>Nombre completo</th>
+                                    <th>Activo</th>
+                                    <th>Rol</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Add user -->
+                    <div id="component_users_add" class="modal" tabindex="-1">
+                        <div class="modal-dialog">
+                            <form class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Crear usuario</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="notifications"></div>
+                                    <table class="table table-striped">
+                                        <tr>
+                                            <td>Usuario</td>
+                                            <td><input type="text" name="usuario" class="form-control" required maxlength="100"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Nombre completo</td>
+                                            <td><input type="text" name="nombres" class="form-control" required maxlength="100"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Clave</td>
+                                            <td><input type="password" name="clave" class="form-control" maxlength="100"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Activo</td>
+                                            <td>
+                                                <select name="activo" class="form-select" required>
+                                                    <option value="Activo">Activo</option>
+                                                    <option value="Inactivo">Inactivo</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Rol</td>
+                                            <td>
+                                                <select name="rol" class="form-select" required>
+                                                    <option value="Admin">Admin</option>
+                                                    <option value="Editor">Editor</option>
+                                                    <option value="Lector">Lector</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                    <button type="submit" class="btn btn-primary">Crear</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                      
+                    <!-- Modificar usuario -->
+                    <div id="component_users_modify" class="modal" tabindex="-1">
+                        <div class="modal-dialog">
+                            <form class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Modificar usuario</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="notifications"></div>
+                                    <input type="hidden" name="id">
+                                    <table class="table table-striped">
+                                        <tr>
+                                            <td>Usuario</td>
+                                            <td><input type="text" name="usuario" class="form-control" required maxlength="100"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Nombre completo</td>
+                                            <td><input type="text" name="nombres" class="form-control" required maxlength="100"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Clave</td>
+                                            <td><input type="password" name="clave" class="form-control" maxlength="100"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Activo</td>
+                                            <td>
+                                                <select name="activo" class="form-select" required>
+                                                    <option value="Activo">Activo</option>
+                                                    <option value="Inactivo">Inactivo</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Rol</td>
+                                            <td>
+                                                <select name="rol" class="form-select" required>
+                                                    <option value="Admin">Admin</option>
+                                                    <option value="Editor">Editor</option>
+                                                    <option value="Lector">Lector</option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger delete">Borrar</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                    <button type="submit" class="btn btn-primary">Modificar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Borrar usuario -->
+                    <div id="component_users_delete" class="modal" tabindex="-1">
+                        <div class="modal-dialog">
+                            <form class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Borrar usaurio</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="notifications"></div>
+                                    <input type="hidden" name="id">
+                                    <p>Seguro desea eliminar el registro ID <strong class="id"></strong></p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                    <button type="submit" class="btn btn-primary">Borrar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </section>
+
             </main>
         </div>
     </div>
@@ -273,6 +444,7 @@
     <script src="assets/js/download_csv.js"></script>
     <script src="assets/js/procesar_csv.js"></script>
     <script src="assets/js/receptors/salesStatesReceptor.js"></script>
+    <script src="assets/js/receptors/usersReceptor.js"></script>
     <script>
         $(document).ready(function()
         {
