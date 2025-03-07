@@ -7,7 +7,7 @@ const handler = express.Router();
 // /auth/verifyLogin
 handler.get('/auth/verifyLogin', isAuthenticated, async (req, res) =>
 {
-    res.json({ message: 'Sesión iniciada', username: req.session.username, role: req.session.role });
+    res.json({ message: 'Sesión iniciada', usuario: req.session.usuario, rol: req.session.rol });
 });
 
 // /auth/login
@@ -28,8 +28,8 @@ handler.post('/auth/login', async (req, res) =>
     }
 
     req.session.userId = user.id;
-    req.session.username = user.clave;
-    req.session.role = user.rol;
+    req.session.usuario = user.usuario;
+    req.session.rol = user.rol;
     res.json({ message: 'Sesión iniciada' });
 });
 
