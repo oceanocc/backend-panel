@@ -222,7 +222,7 @@ $(function()
                 $('#componente_estado_de_ventas_modificar .notifications').append(
                 `
                     <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                        Error al crear la venta
+                        Error al modificar el estado de venta
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 `);
@@ -294,6 +294,56 @@ $(function()
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             `);
+        });
+    });
+
+    // Subir
+    $('#componente_estado_de_ventas_subir form').submit(function(e)
+    {
+        e.preventDefault();
+
+        const fileInput = $('#componente_estado_de_ventas_subir form input[name=archivo]')[0];
+
+        procesarCSV(fileInput, function(data)
+        {
+            fetch(`/salesStates/bulk`,
+            {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(data)
+            })
+            .then(response => 
+            {
+                if(response.ok)
+                {
+                    $('#componente_estado_de_ventas_leer form').submit();
+                    $(this).trigger('reset');
+                    $('#componente_estado_de_ventas_subir .notifications').empty();
+                    $('#componente_estado_de_ventas_subir').modal('hide');
+                }
+                else
+                {
+                    $('#componente_estado_de_ventas_subir .notifications').empty();
+                    $('#componente_estado_de_ventas_subir .notifications').append(
+                    `
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            Error al subir los estados de venta
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    `);
+                }
+            })
+            .catch(error =>
+            {
+                $('#componente_estado_de_ventas_subir .notifications').empty();
+                $('#componente_estado_de_ventas_subir .notifications').append(
+                `
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        ${error}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                `);
+            });
         });
     });
 

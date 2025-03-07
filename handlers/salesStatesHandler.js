@@ -143,5 +143,53 @@ handler.delete('/salesStates/', isAuthenticated, async (req, res) =>
         res.status(500).json({ message: 'Error al borrar el estado de venta' });
     }
 });
+
+// /salesStates/batch POST
+handler.post('/salesStates/bulk', isAuthenticated, async (req, res) =>
+{
+    const values = req.body;
+    try
+    {
+        await pool.query('TRUNCATE TABLE estado_de_ventas_pre');
+
+        for(let value of values)
+        {
+            const { usuario, dn, status, fecha_encuesta, fecha_activacion, fecha_alta } = value;
+            await pool.query(
+                'INSERT INTO estado_de_ventas_pre (usuario, dn, status, fecha_encuesta, fecha_activacion, fecha_alta) VALUES (?, ?, ?, ?, ?, ?)',
+                [usuario, dn, status, fecha_encuesta, fecha_activacion, fecha_alta]
+            );
+        }
+        await pool.query(`
+            INSERT INTO estado_de_ventas (usuario, dn, status, fecha_encuesta, fecha_activacion, fecha_alta)
+            SELECT ev2.usuario, ev2.dn, ev2.status, ev2.fecha_encuesta, ev2.fecha_activacion, ev2.fecha_alta
+            FROM estado_de_ventas_pre ev2
+            LEFT JOIN estado_de_ventas ev ON ev.dn = ev2.dn
+            WHERE
+                ev.dn IS NULL
+        `);
+
+        await pool.query(`
+            UPDATE estado_de_ventas ev 
+            JOIN estado_de_ventas_pre ev2 ON ev2.dn = ev.dn
+            SET
+                ev.usuario = ev2.usuario
+                ,ev.dn = ev2.dn
+                ,ev.status = ev2.status
+                ,ev.fecha_encuesta = ev2.fecha_encuesta
+                ,ev.fecha_activacion = ev2.fecha_activacion
+                ,ev.fecha_alta = ev2.fecha_alta
+                ,ev.fecha_actualizacion = NOW()
+        `);
+
+        res.status(201).json({ message: 'Estados de ventas guardados correctamente'});
+    }
+    catch (error)
+    {
+        // Maneja los errores
+        console.error('Error al guardar:', error);
+        res.status(500).json({ message: 'Error al guardar' });
+    }
+});
     
 export default handler;
