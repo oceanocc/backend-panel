@@ -1,13 +1,21 @@
 function ExportTableToCSV(table)
 {
     var rows = [];
-    $(table).find('tr').each(function() {
+    $(table).find('tr').each(function()
+    {
         var $row = $(this);
+        var columns = $row.find('th').map(function(index, cell)
+        {
+            return $(cell).text();
+        }).get();
         var data = $row.find('td').map(function(index, cell)
         {
             return $(cell).text();
         }).get();
-        rows.push(data);
+        if(columns.length == 0)
+            rows.push(data);
+        else
+            rows.push(columns);
     });
 
     // Convert data to CSV

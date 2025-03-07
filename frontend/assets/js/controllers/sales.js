@@ -82,16 +82,15 @@ $(function()
             $('.notifications').empty();
             $.each(response.sales, function(index, sale) 
             {
-                $('#estado_de_ventas table tbody').append(`
+                $('#estado_de_ventas table.results tbody').append(`
                     <tr>
-                        <td>${sale.username}</td>
+                        <td>${sale.usuario}</td>
                         <td>${sale.dn}</td>
                         <td>${sale.status}</td>
-                        <td>${sale.fecha_venta}</td>
-                        <td>${sale.fecha_activacion}</td>
-                        <td>${sale.fecha_alta}</td>
-                        <td>${sale.fecha_fvc}</td>
-                        <td>${transformarFecha(sale.updated_at)}</td>
+                        <td>${sale.fecha_encuesta == null ? '' : sale.fecha_encuesta}</td>
+                        <td>${sale.fecha_activacion == null ? '' : sale.fecha_activacion}</td>
+                        <td>${sale.fecha_alta == null ? '' : sale.fecha_alta}</td>
+                        <td>${transformarFecha(sale.fecha_actualizacion)}</td>
                     </tr>`
                 );
 

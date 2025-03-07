@@ -39,7 +39,7 @@
         </button>
         <div class="navbar-nav">
             <div class="nav-item text-nowrap">
-                <a class="nav-link px-3" href="#">Cerrar sesi&oacute;n</a>
+                <a class="nav-link px-3" id="logout" href="#">Cerrar sesi&oacute;n</a>
             </div>
         </div>
     </header>
@@ -96,12 +96,12 @@
                                     </li>
                                 </ul>
                             </div>
-                            <a class="btn btn-sm btn-outline-secondary" href="#" onclick="ExportTableToCSV('#estado_de_ventas table')">Descargar</a>
+                            <a class="btn btn-sm btn-outline-secondary" href="#" onclick="ExportTableToCSV('#estado_de_ventas table.results')">Descargar</a>
                         </div>
                     </div>
     
                     <div class="mt-2 notifications"></div>
-                    <table class="table">
+                    <table class="table results">
                         <thead>
                             <tr>
                                 <th>Usuario</th>
@@ -110,7 +110,6 @@
                                 <th>Fecha de venta</th>
                                 <th>Fecha de activaci&oacute;n</th>
                                 <th>Fecha de alta</th>
-                                <th>Fecha de FVC</th>
                                 <th>Fecha de actualizaci&oacute;n</th>
                             </tr>
                         </thead>
