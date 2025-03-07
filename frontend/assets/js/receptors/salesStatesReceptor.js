@@ -46,22 +46,13 @@ $(function()
             return;
         }
 
-        fetch(`/sales/${from}/${to}`)
+        fetch(`/salesStates/${from}/${to}`)
         .then(response =>
         {
             if(response.ok)
                 return response.json();
             else
-            {
-                $('.notifications').empty();
-                $('.notifications').append(
-                `
-                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                        Error al solicitar las ventas
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                `);
-            }
+                throw 'Error al solicitar las ventas';
         })
         .then(response =>
         {
