@@ -1,0 +1,104 @@
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <title>Estados de Ventas - B&P</title>
+
+        <link rel="icon" href="../assets/img/favicon.png" type="image/x-icon">
+        <link href="../assets/css/dashboard.css" rel="stylesheet">
+        <link href="../assets/css/styles.css" rel="stylesheet">
+    </head>
+    <body>
+        
+        <div class="container-fluid bg-light">
+            <div class="row">
+                <main class="px-md-4">
+                    <!-- Login-->
+                    <div class="container my-5">
+                        <div class="row justify-content-center">
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3 class="text-center">Iniciar Sesión</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <form id="loginForm">
+                                            <div id="notifications"></div>
+                                            <div class="form-group">
+                                                <label for="username">Usuario</label>
+                                                <input type="text" class="form-control" id="username" placeholder="Ingresa tu usuario">
+                                            </div>
+                                            <div class="form-group mt-4">
+                                                <label for="password">Contraseña</label>
+                                                <input type="password" class="form-control" id="password" placeholder="Ingresa tu contraseña">
+                                            </div>
+                                            <button type="submit" class="btn btn-primary btn-block mt-4">Iniciar Sesión</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script><script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js" integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+        <script>
+            $(document).ready(function()
+            {
+                $('#loginForm').submit(function(event)
+                {
+                    event.preventDefault();
+
+                    const username = $('#username').val();
+                    const password = $('#password').val();
+
+                    fetch('/auth/login',
+                    {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ username, password })
+                    })
+                    .then(response =>
+                    {
+                        if (response.ok)
+                        { // Verifica si el código de estado es 200-299
+                            $('#notifications').html('');
+                            $('#notifications').append(`
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    Iniciando sesión...
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            `);
+                            window.location.href = '../';
+                        }
+                        else
+                        {
+                            // Inicio de sesión fallido, muestra un mensaje de error
+                            $('#notifications').html('');
+                            $('#notifications').append(`
+                                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                    Usuario o contraseña incorrectos
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            `);
+                        }
+                    })
+                    .catch(error =>
+                    {
+                        alert('Ocurrió un error al iniciar sesión');
+                    });
+                });
+            });
+        </script>
+    </body>
+</html>
