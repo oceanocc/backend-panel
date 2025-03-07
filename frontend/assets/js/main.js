@@ -17,4 +17,24 @@ $(function()
         $('input[type="date"][name="to"]').val(hoyFormateado);
     }
     configurarFechas();
+
 });
+
+function menu(menu)
+{
+    let menus = ['users', 'salesStates'];
+
+    for(let m of menus)
+    {
+        if(m === menu)
+        {
+            $(`#${m}_btn`).addClass('active');
+            $(`#${m}_section`).show();
+        }
+        else
+        {
+            $(`#${m}_btn`).removeClass('active');
+            $(`#${m}_section`).hide();
+        }
+    }
+}
