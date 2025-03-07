@@ -52,4 +52,30 @@ handler.get('/sales/:from/:to', isAuthenticated, async (req, res) =>
     res.json({ sales });
 });
 
+// /sales/add
+handler.post('/salesStates/', isAuthenticated, async (req, res) =>
+{
+    let { usuario, dn, status, fecha_encuesta, fecha_activacion, fecha_alta } = req.body;
+    if(fecha_activacion == '') fecha_activacion = null;
+    if(fecha_alta == '') fecha_alta = null;
+
+    try
+    {
+        const [result] = await pool.query(
+        'INSERT INTO estado_de_ventas (usuario, dn, status, fecha_encuesta, fecha_activacion, fecha_alta) VALUES (?, ?, ?, ?, ?, ?)',
+        [usuario, dn, status, fecha_encuesta, fecha_activacion, fecha_alta]
+        );
+
+        // Envía una respuesta de éxito
+        res.status(201).json({ message: 'Estado de venta guardado correctamente', id: result.insertId });
+    }
+    catch (error)
+    {
+        // Maneja los errores
+        console.error('Error al guardar el estado de venta:', error);
+        res.status(500).json({ message: 'Error al guardar el estado de venta' });
+    }
+});
+  
+
 export default handler;

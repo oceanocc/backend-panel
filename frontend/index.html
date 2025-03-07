@@ -67,55 +67,106 @@
 
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
 
-                <section id="estado_de_ventas">
+                <section id="estado_de_ventas_section">
 
-                    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                        <h1 class="h2">Estados de Venta</h1>
-                        <div class="btn-toolbar mb-2 mb-md-0">
-                            <div class="dropdown">
-                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle me-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Filtro
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <form class="p-3">
-                                            <table>
-                                                <tr>
-                                                    <td>Desde</td>
-                                                    <td><input type="date" name="from" class="form-control"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Hasta</td>
-                                                    <td><input type="date" name="to" class="form-control"></td>
-                                                </tr>
-                                            </table>
-                                            <div class="mt-2">
-                                                <button type="submit" class="btn btn-sm btn-outline-secondary w-100">Buscar</button>
-                                            </div>
-                                        </form>
-                                    </li>
-                                </ul>
+                    <!-- Leer estados de venta -->
+                    <div id="componente_estado_de_ventas_leer">
+                        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                            <h1 class="h2">Estados de Venta</h1>
+                            <div class="btn-toolbar mb-2 mb-md-0">
+                                <a class="btn btn-sm btn-outline-secondary me-2" href="#" onclick="ExportTableToCSV('#estado_de_ventas table.results')">Descargar</a>
+                                <a class="btn btn-sm btn-outline-secondary me-2" href="#" data-bs-toggle="modal" data-bs-target="#componente_estado_de_ventas_crear">A&ntilde;adir</a>
+                                <div class="dropdown">
+                                    <button class="btn btn-sm btn-outline-secondary dropdown-toggle me-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Filtro
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <form class="p-3">
+                                                <table>
+                                                    <tr>
+                                                        <td>Desde</td>
+                                                        <td><input type="date" name="from" class="form-control"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Hasta</td>
+                                                        <td><input type="date" name="to" class="form-control"></td>
+                                                    </tr>
+                                                </table>
+                                                <div class="mt-2">
+                                                    <button type="submit" class="btn btn-sm btn-outline-secondary w-100">Buscar</button>
+                                                </div>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
-                            <a class="btn btn-sm btn-outline-secondary" href="#" onclick="ExportTableToCSV('#estado_de_ventas table.results')">Descargar</a>
+                        </div>
+        
+                        <div class="mt-2 notifications"></div>
+                        <table class="table results">
+                            <thead>
+                                <tr>
+                                    <th>Usuario</th>
+                                    <th>DN</th>
+                                    <th>Estado</th>
+                                    <th>Fecha de venta</th>
+                                    <th>Fecha de activaci&oacute;n</th>
+                                    <th>Fecha de alta</th>
+                                    <th>Fecha de actualizaci&oacute;n</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Crear estado de venta -->
+                    <div id="componente_estado_de_ventas_crear" class="modal" tabindex="-1">
+                        <div class="modal-dialog">
+                            <form class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Crear estado de venta</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="notifications"></div>
+                                    <table class="table table-striped">
+                                        <tr>
+                                            <td>Usuario</td>
+                                            <td><input type="input" name="usuario" class="form-control" required maxlength="100"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>DN</td>
+                                            <td><input type="input" name="dn" class="form-control" required maxlength="100"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Status</td>
+                                            <td><input type="input" name="status" class="form-control" maxlength="100"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Fecha de encuesta</td>
+                                            <td><input type="date" name="fecha_encuesta" class="form-control" required></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Fecha de activaci&oacute;n</td>
+                                            <td><input type="date" name="fecha_activacion" class="form-control"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Fecha de alta</td>
+                                            <td><input type="date" name="fecha_alta" class="form-control"></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                    <button type="submit" class="btn btn-primary">Crear</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
-    
-                    <div class="mt-2 notifications"></div>
-                    <table class="table results">
-                        <thead>
-                            <tr>
-                                <th>Usuario</th>
-                                <th>DN</th>
-                                <th>Estado</th>
-                                <th>Fecha de venta</th>
-                                <th>Fecha de activaci&oacute;n</th>
-                                <th>Fecha de alta</th>
-                                <th>Fecha de actualizaci&oacute;n</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
+                      
+
                 </section>
             </main>
         </div>
@@ -125,7 +176,7 @@
     <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script>
 
     <script src="assets/js/download_csv.js"></script>
-    <script src="assets/js/controllers/sales.js"></script>
+    <script src="assets/js/receptors/salesStatesReceptor.js"></script>
     <script>
         $(document).ready(function()
         {
@@ -164,7 +215,7 @@
                 fetch('/auth/logout', {method: 'DELETE'})
                 .then(response =>
                 {
-                    window.location.href = '../panel/login.html';
+                    window.location.href = '../login/';
                 })
                 .catch(error =>
                 {

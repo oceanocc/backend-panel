@@ -14,11 +14,11 @@ $(function()
         return `${año}-${mes}-${dia} ${horas}:${minutos}:${segundos}`;
     }
   
-    $('#estado_de_ventas form').submit(function(e)
+    $('#componente_estado_de_ventas_leer form').submit(function(e)
     {
         e.preventDefault();
-        var from = $('#estado_de_ventas form input[name=from]').val();
-        var to = $('#estado_de_ventas form input[name=to]').val();
+        var from = $('#componente_estado_de_ventas_leer form input[name=from]').val();
+        var to = $('#componente_estado_de_ventas_leer form input[name=to]').val();
 
         if (from == "")
         {
@@ -65,7 +65,7 @@ $(function()
         })
         .then(response =>
         {
-            $('#results_table tbody').empty();
+            $('#componente_estado_de_ventas_leer table.results tbody').empty();
 
             if (response.sales.length == 0)
             {
@@ -82,7 +82,7 @@ $(function()
             $('.notifications').empty();
             $.each(response.sales, function(index, sale) 
             {
-                $('#estado_de_ventas table.results tbody').append(`
+                $('#componente_estado_de_ventas_leer table.results tbody').append(`
                     <tr>
                         <td>${sale.usuario}</td>
                         <td>${sale.dn}</td>
@@ -100,6 +100,53 @@ $(function()
         {
             $('.notifications').empty();
             $('.notifications').append(
+            `
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    ${error}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            `);
+        });
+    });
+
+    $('#componente_estado_de_ventas_crear form').submit(function(e)
+    {
+        e.preventDefault();
+
+        var formData = new FormData(this)
+        const data = {};
+        formData.forEach((value, key) => data[key] = value);
+
+        fetch(`/salesStates`,
+        {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(data)
+        })
+        .then(response => 
+        {
+            if(response.ok)
+            {
+                $('#componente_estado_de_ventas_crear form').trigger('reset');
+                $('#componente_estado_de_ventas_crear .notifications').empty();
+                $('#componente_estado_de_ventas_crear').modal('hide');
+            }
+            else
+            {
+                $('#componente_estado_de_ventas_crear .notifications').empty();
+                $('#componente_estado_de_ventas_crear .notifications').append(
+                `
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        Error al crear la venta
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                `);
+            }
+        })
+        .catch(error =>
+        {
+            $('#componente_estado_de_ventas_crear .notifications').empty();
+            $('#componente_estado_de_ventas_crear .notifications').append(
             `
                 <div class="alert alert-warning alert-dismissible fade show" role="alert">
                     ${error}
