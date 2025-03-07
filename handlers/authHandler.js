@@ -16,7 +16,7 @@ handler.post('/auth/login', async (req, res) =>
     const { username, password } = req.body;
     const findByUsername = async (username) =>
     {
-        const [rows] = await pool.query('SELECT * FROM usuarios WHERE usuario = ? AND activo = 1', [username]);
+        const [rows] = await pool.query("SELECT * FROM usuarios WHERE usuario = ? AND activo = 'Activo'", [username]);
         return rows[0];
     };
 
