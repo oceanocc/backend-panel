@@ -13,7 +13,8 @@ $(function()
     
         return `${año}-${mes}-${dia} ${horas}:${minutos}:${segundos}`;
     }
-  
+
+    // Leer
     $('#componente_estado_de_ventas_leer form').submit(function(e)
     {
         e.preventDefault();
@@ -22,8 +23,8 @@ $(function()
 
         if (from == "")
         {
-            $('.notifications').empty();
-            $('.notifications').append(
+            $('#componente_estado_de_ventas_leer .notifications').empty();
+            $('#componente_estado_de_ventas_leer .notifications').append(
             `
                 <div class="alert alert-warning alert-dismissible fade show" role="alert">
                     Por favor, ingrese fecha "Desde"
@@ -35,8 +36,8 @@ $(function()
         }
         if (to == "")
         {
-            $('.notifications').empty();
-            $('.notifications').append(
+            $('#componente_estado_de_ventas_leer .notifications').empty();
+            $('#componente_estado_de_ventas_leer .notifications').append(
             `
                 <div class="alert alert-warning alert-dismissible fade show" role="alert">
                     Por favor, ingrese fecha "Desde"
@@ -46,13 +47,13 @@ $(function()
             return;
         }
 
-        fetch(`/salesStates/${from}/${to}`)
+        fetch(`/salesStates?from=${from}&to=${to}`)
         .then(response =>
         {
             if(response.ok)
                 return response.json();
             else
-                throw 'Error al solicitar las ventas';
+                throw 'Error al solicitar los estados de ventas';
         })
         .then(response =>
         {
@@ -60,8 +61,8 @@ $(function()
 
             if (response.data.length == 0)
             {
-                $('.notifications').empty();
-                $('.notifications').append(
+                $('#componente_estado_de_ventas_leer .notifications').empty();
+                $('#componente_estado_de_ventas_leer .notifications').append(
                 `
                     <div class="alert alert-warning alert-dismissible fade show" role="alert">
                         No se encontraron ventas en el rango de tiempo establecido
@@ -70,11 +71,12 @@ $(function()
                 `);
                 return;
             }
-            $('.notifications').empty();
+            $('#componente_estado_de_ventas_leer .notifications').empty();
             $.each(response.data, function(index, row) 
             {
                 $('#componente_estado_de_ventas_leer table.results tbody').append(`
                     <tr row-id="${row.id}">
+                        <td>${row.id}</td>
                         <td>${row.usuario}</td>
                         <td>${row.dn}</td>
                         <td>${row.status}</td>
@@ -89,8 +91,8 @@ $(function()
         })
         .catch(error =>
         {
-            $('.notifications').empty();
-            $('.notifications').append(
+            $('#componente_estado_de_ventas_leer .notifications').empty();
+            $('#componente_estado_de_ventas_leer .notifications').append(
             `
                 <div class="alert alert-warning alert-dismissible fade show" role="alert">
                     ${error}
@@ -99,7 +101,9 @@ $(function()
             `);
         });
     });
+    $('#componente_estado_de_ventas_leer form').submit();
 
+    // Crear
     $('#componente_estado_de_ventas_crear form').submit(function(e)
     {
         e.preventDefault();
@@ -118,6 +122,7 @@ $(function()
         {
             if(response.ok)
             {
+                $('#componente_estado_de_ventas_leer form').submit();
                 $('#componente_estado_de_ventas_crear form').trigger('reset');
                 $('#componente_estado_de_ventas_crear .notifications').empty();
                 $('#componente_estado_de_ventas_crear').modal('hide');
@@ -146,4 +151,94 @@ $(function()
             `);
         });
     });
+
+    // Modificar
+
+    $(document).on('click', '#componente_estado_de_ventas_leer table.results tr', function(e)
+    {
+        e.preventDefault();
+
+        let id = $(e.currentTarget).attr('row-id');
+
+        fetch(`/salesStates/id/${id}`)
+        .then(response =>
+        {
+            if(response.ok)
+                return response.json();
+            else
+                throw 'Error al leer el estado de venta';
+        })
+        .then(response =>
+        {
+            $('#componente_estado_de_ventas_modificar input[name=id]').val(response.data[0].id);
+            $('#componente_estado_de_ventas_modificar input[name=usuario]').val(response.data[0].usuario);
+            $('#componente_estado_de_ventas_modificar input[name=dn]').val(response.data[0].dn);
+            $('#componente_estado_de_ventas_modificar input[name=status]').val(response.data[0].status);
+            $('#componente_estado_de_ventas_modificar input[name=fecha_encuesta]').val(response.data[0].fecha_encuesta);
+            $('#componente_estado_de_ventas_modificar input[name=fecha_activacion]').val(response.data[0].fecha_activacion);
+            $('#componente_estado_de_ventas_modificar input[name=fecha_alta]').val(response.data[0].fecha_alta);
+
+            $('#componente_estado_de_ventas_modificar').modal('show');
+        })
+        .catch(error =>
+        {
+            $('#componente_estado_de_ventas_modificar .notifications').empty();
+            $('#componente_estado_de_ventas_modificar .notifications').append(
+            `
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    ${error}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            `);
+        });
+    });
+
+    $('#componente_estado_de_ventas_modificar form').submit(function(e)
+    {
+        e.preventDefault();
+
+        var formData = new FormData(this)
+        const data = {};
+        formData.forEach((value, key) => data[key] = value);
+
+        fetch(`/salesStates`,
+        {
+            method: 'PUT',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(data)
+        })
+        .then(response => 
+        {
+            if(response.ok)
+            {
+                $('#componente_estado_de_ventas_leer form').submit();
+                $(this).trigger('reset');
+                $('#componente_estado_de_ventas_modificar .notifications').empty();
+                $('#componente_estado_de_ventas_modificar').modal('hide');
+            }
+            else
+            {
+                $('#componente_estado_de_ventas_modificar .notifications').empty();
+                $('#componente_estado_de_ventas_modificar .notifications').append(
+                `
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        Error al crear la venta
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                `);
+            }
+        })
+        .catch(error =>
+        {
+            $('#componente_estado_de_ventas_crear .notifications').empty();
+            $('#componente_estado_de_ventas_crear .notifications').append(
+            `
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    ${error}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            `);
+        });
+    });
+
 });
