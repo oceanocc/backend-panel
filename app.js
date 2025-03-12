@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 import https from 'https';
 import fs from 'fs';
+import cors from 'cors';
 
 import salesStatesHandler from './handlers/salesStatesHandler.js';
 
