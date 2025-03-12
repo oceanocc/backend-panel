@@ -4,7 +4,7 @@ import pool from '../config/database.js';
 const handler = express.Router();
 
 // /salesStates
-handler.get('/salesStates', async (req, res) =>
+handler.post('/salesStates', async (req, res) =>
 {
     const { user, password, from, to } = req.query;
 
