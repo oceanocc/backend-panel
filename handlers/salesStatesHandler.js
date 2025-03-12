@@ -6,7 +6,7 @@ const handler = express.Router();
 // /salesStates
 handler.post('/salesStates', async (req, res) =>
 {
-    const { user, password, from, to } = req.query;
+    const { user, password, from, to } = req.body;
 
     const salesStates = async (usuario, clave, fecha_inicio, fecha_fin) =>
     {
