@@ -21,6 +21,9 @@ const app = express();
 const httpsServer = https.createServer(credentials, app);
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors({
+    origin: 'https://oceanocc.ddns.net' // Permite solicitudes desde este dominio
+}));
 
 // Rutas
 app.use(salesStatesHandler);
