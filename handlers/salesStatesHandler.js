@@ -10,7 +10,7 @@ handler.get('/salesStates', async (req, res) =>
 
     const salesStates = async (usuario, clave, fecha_inicio, fecha_fin) =>
     {
-        if (!startDate || !endDate)
+        if (!fecha_inicio || !fecha_fin)
         {
             res.status(500).json({ message: 'La fecha de inicio o fin no pueden estar vacías' });
         }
