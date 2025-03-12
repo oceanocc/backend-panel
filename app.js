@@ -2,6 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 import https from 'https';
+import fs from 'fs';
 
 import salesStatesHandler from './handlers/salesStatesHandler.js';
 
