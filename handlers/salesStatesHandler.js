@@ -35,6 +35,7 @@ handler.post('/salesStates', async (req, res) =>
         return rows;
     }
     const results = await salesStates(user, password, from, to);
+    console.log(results);
 
     res.json({ data: results });
 });
