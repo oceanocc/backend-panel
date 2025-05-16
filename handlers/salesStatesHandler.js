@@ -18,7 +18,7 @@ handler.post('/salesStates', async (req, res) =>
                     SELECT
                         u.usuario AS 'usuario'
                         ,v.dn AS 'dn'
-                        ,ev.status AS 'status'
+                        ,IFNULL(ev.status, 'SIN ESTATUS') AS 'status'
                         ,DATE_FORMAT(v.fecha_venta, '%Y-%m-%d') AS 'fecha_venta'
                         ,DATE_FORMAT(ev.fecha_activacion, '%Y-%m-%d') AS 'fecha_activacion'
                         ,DATE_FORMAT(ev.fecha_alta, '%Y-%m-%d') AS 'fecha_alta'
