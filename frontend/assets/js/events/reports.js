@@ -14,7 +14,26 @@ $(function()
         return `${año}-${mes}-${dia} ${horas}:${minutos}:${segundos}`;
     }
 
-    // Leer
+    // Report 1
+    let dataset1 = [];
+    new DataTable('#report1', {
+        columns: [
+            { title: 'C&eacute;dula' },
+            { title: 'Nombre completo' },
+            { title: 'Horas' },
+            { title: 'ACD.' },
+            { title: 'Wait' },
+            { title: 'ACW' },
+            { title: 'DEAD' },
+            { title: 'Pausa' },
+            { title: 'Break' },
+            { title: 'Ba&ntilde;o' },
+            { title: 'Feedback' },
+            { title: 'Manual' },
+            { title: 'Login' }
+        ],
+        data: dataset1
+    });
     $('#component_report1 form').submit(function(e)
     {
         e.preventDefault();
@@ -49,30 +68,10 @@ $(function()
             }
 
             $('#component_report1 .notifications').empty();
-            $('#component_report1 table.results tbody').empty();
-            let dataset = [];
+            dataset1 = [];
             $.each(response.data, function(index, row) 
             {
-                dataset.push([row.cedula, row.nombre_completo, row.horas, row.acd, row.wait, row.acw, row.dead, row.pauseAux, row.break, row.bano, row.fdbk, row.manual, row.login]);
-            });
-
-            new DataTable('#report1', {
-                columns: [
-                    { title: 'C&eacute;dula' },
-                    { title: 'Nombre completo' },
-                    { title: 'Horas' },
-                    { title: 'ACD.' },
-                    { title: 'Wait' },
-                    { title: 'ACW' },
-                    { title: 'DEAD' },
-                    { title: 'Pausa' },
-                    { title: 'Break' },
-                    { title: 'Ba&ntilde;o' },
-                    { title: 'Feedback' },
-                    { title: 'Manual' },
-                    { title: 'Login' }
-                ],
-                data: dataset
+                dataset1.push([row.cedula, row.nombre_completo, row.horas, row.acd, row.wait, row.acw, row.dead, row.pauseAux, row.break, row.bano, row.fdbk, row.manual, row.login]);
             });
         })
         .catch(error =>
