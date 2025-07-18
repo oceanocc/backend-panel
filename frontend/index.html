@@ -8,7 +8,7 @@
         <meta name="generator" content="Hugo 0.88.1">
         <title>OceanoCC Dashboard</title>
 
-        <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="/assets/img/favicon.png" type="image/png">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"  crossorigin="anonymous"></script>
@@ -52,15 +52,9 @@
 
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a id="indicators_agents_btn" class="nav-link active" href="#" onclick="menu('indicators_agents')">
+                            <a id="report1_btn" class="nav-link active" href="#" onclick="menu('report1')">
                                 <span data-feather="home"></span>
-                                Indicadores de agentes
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a id="users_btn" class="nav-link" href="#" onclick="menu('users')">
-                                <span data-feather="user"></span>
-                                Usuarios
+                                Tiempos de agentes
                             </a>
                         </li>
                     </ul>
@@ -70,10 +64,10 @@
 
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
 
-                <section id="indicators_agents_section">
+                <section id="report1_section">
 
                     <!-- Leer estados de venta -->
-                    <div id="componente_estado_de_ventas_leer">
+                    <div id="component_report1">
                         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                             <h1 class="h2">Indicadores de agentes</h1>
                             <div class="btn-toolbar mb-2 mb-md-0">
@@ -113,8 +107,17 @@
                                 <tr>
                                     <th>C&eacute;dula</th>
                                     <th>Nombre completo</th>
-                                    <th>Ventas (tipificaci&oacute;n)</th>
-                                    <th>Horas de conexi&oacute;n</th>
+                                    <th>Horas</th>
+                                    <th>ACD</th>
+                                    <th>Wait</th>
+                                    <th>ACW</th>
+                                    <th>DEAD</th>
+                                    <th>Pausa</th>
+                                    <th>Break</th>
+                                    <th>Ba&ntilde;o</th>
+                                    <th>Feedback</th>
+                                    <th>Manual</th>
+                                    <th>Login</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -134,7 +137,7 @@
 
     <script src="/assets/js/main.js"></script>
     <script src="/assets/js/events/login.js"></script>
-    <script src="/assets/js/events/agents_indicators.js"></script>
+    <script src="/assets/js/events/reports.js"></script>
     <script src="/assets/js/download_csv.js"></script>
     <script>
         $(document).ready(function()
