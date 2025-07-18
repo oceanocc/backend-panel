@@ -1,3 +1,7 @@
+
+// Datasets
+var dataset1 = [];
+
 $(function()
 {
     function transformarFecha(fechaISO)
@@ -15,7 +19,6 @@ $(function()
     }
 
     // Report 1
-    let dataset1 = [];
     new DataTable('#report1', {
         columns: [
             { title: 'C&eacute;dula' },
