@@ -1,0 +1,11 @@
+[Unit]
+Description=OceanoCC BackendPanel
+After=network.target
+
+[Service]
+WorkingDirectory=/usr/local/src/backend-panel
+ExecStart=/usr/bin/node app.js
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
