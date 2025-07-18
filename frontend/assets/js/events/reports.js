@@ -72,7 +72,7 @@ $(function()
                     { title: 'Manual' },
                     { title: 'Login' }
                 ],
-                data: dataSet
+                data: dataset
             });
         })
         .catch(error =>
