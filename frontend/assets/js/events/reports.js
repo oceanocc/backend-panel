@@ -1,6 +1,5 @@
 
 // Datasets
-var dataset1 = [];
 
 $(function()
 {
@@ -19,7 +18,7 @@ $(function()
     }
 
     // Report 1
-    new DataTable('#report1', {
+    let datatables1 = new DataTable('#report1', {
         columns: [
             { title: 'C&eacute;dula' },
             { title: 'Nombre completo' },
@@ -35,7 +34,7 @@ $(function()
             { title: 'Manual' },
             { title: 'Login' }
         ],
-        data: dataset1
+        data: []
     });
     $('#component_report1 form').submit(function(e)
     {
@@ -71,11 +70,12 @@ $(function()
             }
 
             $('#component_report1 .notifications').empty();
-            dataset1 = [];
+            let dataset1 = [];
             $.each(response.data, function(index, row) 
             {
                 dataset1.push([row.cedula, row.nombre_completo, row.horas, row.acd, row.wait, row.acw, row.dead, row.pauseAux, row.break, row.bano, row.fdbk, row.manual, row.login]);
             });
+            datatables1.clear().rows.add(dataset1).draw();
         })
         .catch(error =>
         {
