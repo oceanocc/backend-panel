@@ -50,26 +50,29 @@ $(function()
 
             $('#component_report1 .notifications').empty();
             $('#component_report1 table.results tbody').empty();
+            let dataset = [];
             $.each(response.data, function(index, row) 
             {
-                $('#component_report1 table.results tbody').append(`
-                    <tr row-id="${row.cedula}">
-                        <td>${row.cedula}</td>
-                        <td>${row.nombre_completo}</td>
-                        <td>${row.horas}</td>
-                        <td>${row.acd}</td>
-                        <td>${row.wait}</td>
-                        <td>${row.acw}</td>
-                        <td>${row.dead}</td>
-                        <td>${row.pauseAux}</td>
-                        <td>${row.break}</td>
-                        <td>${row.bano}</td>
-                        <td>${row.fdbk}</td>
-                        <td>${row.manual}</td>
-                        <td>${row.login}</td>
-                    </tr>`
-                );
+                dataset.push([row.cedula, row.nombre_completo, row.horas, row.acd, row.wait, row.acw, row.dead, row.pauseAux, row.break, row.bano, row.fdbk, row.manual, row.login]);
+            });
 
+            new DataTable('#report1', {
+                columns: [
+                    { title: 'C&eacute;dula' },
+                    { title: 'Nombre completo' },
+                    { title: 'Horas' },
+                    { title: 'ACD.' },
+                    { title: 'Wait' },
+                    { title: 'ACW' },
+                    { title: 'DEAD' },
+                    { title: 'Pausa' },
+                    { title: 'Break' },
+                    { title: 'Ba&ntilde;o' },
+                    { title: 'Feedback' },
+                    { title: 'Manual' },
+                    { title: 'Login' }
+                ],
+                data: dataSet
             });
         })
         .catch(error =>
