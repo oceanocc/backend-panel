@@ -11,6 +11,7 @@ import { fileURLToPath } from 'url';
 
 import authHandler from './handlers/authHandler.js';
 import salesStatesHandler from './handlers/salesStatesHandler.js';
+import reportsHandler from './handlers/reportsHandler.js';
 
 dotenv.config();
 const __filename = fileURLToPath(import.meta.url);
@@ -44,6 +45,7 @@ app.use(cors({
 app.use(express.static(path.join(__dirname, 'frontend')));
 app.use(authHandler);
 app.use(salesStatesHandler);
+app.use(reportsHandler);
 
 httpsServer.listen(process.env.PORT, () =>
 {
