@@ -26,8 +26,8 @@ router.get('/api/reports/1', isAuthenticated, async (req, res) =>
                 ,ROUND(SUM(IF(s.sub_status='FDBCK',s.pause_sec,0))/3600, 2) AS 'fdbk'
                 ,ROUND(SUM(IF(s.sub_status='MANUAL',s.pause_sec,0))/3600, 2) AS 'manual'
                 ,ROUND(SUM(IF(s.sub_status='LOGIN',s.pause_sec,0))/3600, 2) AS 'login'
-            FROM asterisk_test.vicidial_agent_log s
-            JOIN asterisk_test.vicidial_users vu ON vu.user = s.user
+            FROM asterisk.vicidial_agent_log s
+            JOIN asterisk.vicidial_users vu ON vu.user = s.user
             WHERE s.event_time BETWEEN ? AND ? + INTERVAL 1 DAY
             GROUP BY s.user
         `, [from, to]);
