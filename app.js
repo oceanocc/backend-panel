@@ -4,10 +4,17 @@ import dotenv from 'dotenv';
 import https from 'https';
 import fs from 'fs';
 import cors from 'cors';
+import session from 'express-session';
+import cookieParser from 'cookie-parser';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
+import authHandler from './handlers/authHandler.js';
 import salesStatesHandler from './handlers/salesStatesHandler.js';
 
 dotenv.config();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Lee los archivos de certificado y clave
 const privateKey = fs.readFileSync(process.env.KEY, 'utf8');
@@ -21,15 +28,24 @@ const credentials = {
 const app = express();
 const httpsServer = https.createServer(credentials, app);
 app.use(express.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
+app.use(bodyParser.urlencoded({ extended: true })); 
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: false, httpOnly: true }
+}));
 app.use(cors({
-    origin: 'https://oceanocc.ddns.net' // Permite solicitudes desde este dominio
+    origin: 'https://oceanocc.ddns.net'
 }));
 
-// Rutas
+// Routes
+app.use(express.static(path.join(__dirname, 'frontend')));
+app.use(authHandler);
 app.use(salesStatesHandler);
 
 httpsServer.listen(process.env.PORT, () =>
 {
-    console.log(`oceanocc-panel ${process.env.PORT}`);
+    console.log(`oceanocc-backend ${process.env.PORT}`);
 });
