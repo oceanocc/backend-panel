@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+        <meta name="generator" content="Hugo 0.88.1">
+        <title>OceanoCC Dashboard</title>
+
+        <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"  crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+
+        <link href="/assets/css/dashboard.css" rel="stylesheet">
+        <style>
+            .bd-placeholder-img {
+                font-size: 1.125rem;
+                text-anchor: middle;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                user-select: none;
+            }
+
+            @media (min-width: 768px) {
+                .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+                }
+            }
+        </style>
+    </head>
+<body>
+        
+    <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+        <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#">OceanoCC Dashboard</a>
+        <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="navbar-nav">
+            <div class="nav-item text-nowrap">
+                <a class="nav-link px-3" id="logout" href="#">Cerrar sesi&oacute;n</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container-fluid">
+        <div class="row">
+            <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+                <div class="position-sticky pt-3">
+
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a id="indicators_agents_btn" class="nav-link active" href="#" onclick="menu('indicators_agents')">
+                                <span data-feather="home"></span>
+                                Indicadores de agentes
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a id="users_btn" class="nav-link" href="#" onclick="menu('users')">
+                                <span data-feather="user"></span>
+                                Usuarios
+                            </a>
+                        </li>
+                    </ul>
+
+                </div>
+            </nav>
+
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+
+                <section id="indicators_agents_section">
+
+                    <!-- Leer estados de venta -->
+                    <div id="componente_estado_de_ventas_leer">
+                        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                            <h1 class="h2">Indicadores de agentes</h1>
+                            <div class="btn-toolbar mb-2 mb-md-0">
+                                <a class="btn btn-sm btn-outline-secondary me-2" href="#" onclick="ExportTableToCSV('#estado_de_ventas table.results')">
+                                    Descargar
+                                </a>
+                                <div class="dropdown">
+                                    <button class="btn btn-sm btn-outline-secondary dropdown-toggle me-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Filtro
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <form class="p-3">
+                                                <table>
+                                                    <tr>
+                                                        <td>Desde</td>
+                                                        <td><input type="date" name="from" class="form-control"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Hasta</td>
+                                                        <td><input type="date" name="to" class="form-control"></td>
+                                                    </tr>
+                                                </table>
+                                                <div class="mt-2">
+                                                    <button type="submit" class="btn btn-sm btn-outline-secondary w-100">Buscar</button>
+                                                </div>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+        
+                        <div class="mt-2 notifications"></div>
+                        <table class="table results">
+                            <thead>
+                                <tr>
+                                    <th>C&eacute;dula</th>
+                                    <th>Nombre completo</th>
+                                    <th>Ventas (tipificaci&oacute;n)</th>
+                                    <th>Horas de conexi&oacute;n</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                      
+                </section>
+
+            </main>
+        </div>
+    </div>
+    <div id="block-login" style="position:fixed;top:0;left:0;width:100%;height:100%;background-color:white;z-index:1000000;"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script>
+    <script src="https://josefelixrc7.github.io/wtools/wtools.js"></script>
+
+    <script src="/assets/js/main.js"></script>
+    <script src="/assets/js/events/login.js"></script>
+    <script src="/assets/js/events/agents_indicators.js"></script>
+    <script src="/assets/js/download_csv.js"></script>
+    <script>
+        $(document).ready(function()
+        {
+            // Verify is logged in
+            if(loginObject.IsLoggedIn_(function(result, data = undefined)
+            {
+                if(!result) location.href = "/login";
+
+                $('#block-login').hide();
+            }));
+
+            $('#logout').click(e =>
+            {
+                e.preventDefault();
+                fetch('/api/logout', {method: 'DELETE'})
+                .then(response =>
+                {
+                    location.href = '/login/';
+                })
+                .catch(error =>
+                {
+                    console.log('Hubo un error al cerrar la sesión:', error);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
