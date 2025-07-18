@@ -46,7 +46,7 @@ class Login
             if(response_data.status == 200)
             {
                 new wtools.Notification('SUCCESS', 0, `${this.target} .notifications`, true).Show_('Iniciando sesi&oacute;n...');
-                location.href = '../';
+                location.href = '/dashboard/';
             }
             else
                 new wtools.Notification('WARNING', 5000, `${this.target} .notifications`, true).Show_('Credenciales inv&aacute;lidas.');
