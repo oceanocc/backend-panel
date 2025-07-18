@@ -145,7 +145,11 @@
             // Verify is logged in
             if(loginObject.IsLoggedIn_(function(result, data = undefined)
             {
-                if(!result) location.href = "/login";
+                if(!result) 
+                {
+                    location.href = "/login";
+                    return;
+                }
 
                 $('#block-login').hide();
             }));
