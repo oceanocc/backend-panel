@@ -12,7 +12,7 @@ router.get('/api/reports/1', isAuthenticated, async (req, res) =>
     try
     {
         let parameters = [from, to];
-        if (supervisor != '') parameters.push(supervisor);
+        if (supervisor != 'all') parameters.push(supervisor);
         if (campaign != 'all') parameters.push(campaign);
 
         const [rows] = await pool.query(`
@@ -32,11 +32,11 @@ router.get('/api/reports/1', isAuthenticated, async (req, res) =>
                 ,ROUND(SUM(IF(s.sub_status='LOGIN',s.pause_sec,0))/3600, 2) AS 'login'
             FROM asterisk.vicidial_agent_log s
             JOIN asterisk.vicidial_users vu ON vu.user = s.user
-            ${supervisor == '' ? '' : `JOIN supervisores_grupos sp ON sp.grupo = s.user_group`}
-            ${supervisor == '' ? '' : `JOIN supervisores sup ON sup.id = sp.id_supervisor`}
+            ${supervisor == 'all' ? '' : `JOIN supervisores_grupos sp ON sp.grupo = s.user_group`}
+            ${supervisor == 'all' ? '' : `JOIN supervisores sup ON sup.id = sp.id_supervisor`}
             WHERE 
                 s.event_time BETWEEN ? AND ? + INTERVAL 1 DAY
-                ${supervisor == '' ? '' : `AND sup.identificador = ?`}
+                ${supervisor == 'all' ? '' : `AND sup.identificador = ?`}
                 ${campaign == 'all' ? '' : `AND s.campaign_id = ?`}
             GROUP BY s.user
         `, parameters);
