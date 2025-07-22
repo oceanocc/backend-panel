@@ -1,14 +1,56 @@
 
-// Datasets
+// User groups
+let userGroups = 
+[
+    {
+        id: "damaglys_guerra"
+        ,name: "Damaglys Guerra"
+        ,groups: ["G-DAMAGLYSG", "G-DAMAGLYSG_ESPECIAL", "G-DAMAGLYSG_MANUAL"]
+    }
+    ,{
+        id: "jose_rivasl"
+        ,name: "José Rivas Labrador"
+        ,groups: ["G-JOSERL", "G-JOSERL_ESPECIAL", "G-JOSERL_MANUAL"]
+    }
+];
+
+// Campaigns
+let campaigns = 
+[
+    {id: "a1", name: "A1 - WINBACK MEX-MOV-PORTA"}
+    ,{id: "a2", name: "A2 - REFERIDOS MEX-MOV-PORTA"}
+    ,{id: "a3", name: "A3 - RRSS MEX-MOV-PORTA"}
+    ,{id: "a4", name: "A4 - ENTRENAMIENTO MEX-MOV-PORTA"}
+    ,{id: "a5", name: "A5 - ALERTAS MEX-MOV-PORTA"}
+    ,{id: "a6", name: "A6 - MANUAL MEX-MOV-PORTA"}
+];
 
 $(function()
 {
-    function transformarFecha(fechaISO)
+    function SetupSupervisors()
+    {
+        $('.select_supervisor').append(`<option value="all" selected>-- Todo --</option>`);
+        for(let group of userGroups)
+        {
+            $('.select_supervisor').append(`<option value="${group.id}">${group.name}</option>`);
+        }
+    }
+    SetupSupervisors();
+    function SetupCampaigns()
+    {
+        $('.select_campaign').append(`<option value="all" selected>-- Todo --</option>`);
+        for(let campaign of campaigns)
+        {
+            $('.select_campaign').append(`<option value="${campaign.id}">${campaign.name}</option>`);
+        }
+    }
+    SetupCampaigns();
+    function TransformDate(fechaISO)
     {
         const fecha = new Date(fechaISO);
     
         const año = fecha.getFullYear();
-        const mes = String(fecha.getMonth() + 1).padStart(2, '0'); // Añade 1 al mes porque es 0-indexado
+        const mes = String(fecha.getMonth() + 1).padStart(2, '0');
         const dia = String(fecha.getDate()).padStart(2, '0');
         const horas = String(fecha.getHours()).padStart(2, '0');
         const minutos = String(fecha.getMinutes()).padStart(2, '0');
@@ -36,24 +78,38 @@ $(function()
         ],
         data: []
     });
-    $('#component_report1 form').submit(function(e)
+    $('#component_report1_filters form').submit(function(e)
     {
         e.preventDefault();
-        var from = $('#component_report1 form input[name=from]').val();
-        var to = $('#component_report1 form input[name=to]').val();
+        let from = $('#component_report1_filters form input[name=from]').val();
+        let to = $('#component_report1_filters form input[name=to]').val();
+        let supervisor = $('#component_report1_filters form select[name=supervisor]').val();
+        let campaign = $('#component_report1_filters form select[name=campaign]').val();
 
         if (from == "")
         {
-            new wtools.Notification('WANING', 5000, `#component_report1 .notifications`, true).Show_("Por favor, ingrese fecha \"Desde\"");
+            new wtools.Notification('WANING', 5000, `#component_report1_filters .notifications`, true).Show_("Por favor, ingrese fecha \"Desde\"");
             return;
         }
         if (to == "")
         {
-            new wtools.Notification('WANING', 5000, `#component_report1 .notifications`, true).Show_("Por favor, ingrese fecha \"Hasta\"");
+            new wtools.Notification('WANING', 5000, `#component_report1_filters .notifications`, true).Show_("Por favor, ingrese fecha \"Hasta\"");
             return;
         }
 
-        fetch(`/api/reports/1?from=${from}&to=${to}`)
+        // Setup supervisor groups
+        let supervisorGroups = "";
+        for(let group of userGroups)
+        {
+            if (supervisor == group.id)
+            {
+                supervisorGroups = group.groups.join("\",\"");
+                break;
+            }
+        }
+        if(supervisorGroups != "") supervisorGroups = `"${supervisorGroups}"`;
+        
+        fetch(`/api/reports/1?from=${from}&to=${to}&campaign=${campaign}&supervisorGroups=${supervisorGroups}`,)
         .then(response =>
         {
             if(response.ok)
@@ -63,6 +119,7 @@ $(function()
         })
         .then(response =>
         {
+            $('#component_report1_filters').modal('hide');
             if (response.data.length == 0)
             {
                 new wtools.Notification('WANING', 0, `#component_report1 .notifications`, true).Show_("No se encontr&oacute; informaci&oacute;n en el rango de tiempo establecido.");
@@ -79,10 +136,11 @@ $(function()
         })
         .catch(error =>
         {
+            $('#component_report1_filters').modal('hide');
             new wtools.Notification('ERROR', 5000, `#component_report1 .notifications`, true).Show_("No se pudo cargar la informaci&oacute;n.");
             console.error('Error al cargar la informaci&oacute;n:', error);
         });
     });
-    $('#component_report1 form').submit();
+    $('#component_report1_filters form').submit();
 
 });

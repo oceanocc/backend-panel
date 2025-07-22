@@ -68,7 +68,7 @@
 
                 <section id="report1_section">
 
-                    <!-- Leer estados de venta -->
+                    <!-- Report1: Read -->
                     <div id="component_report1">
                         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                             <h1 class="h2">Tiempos de agentes</h1>
@@ -79,35 +79,51 @@
                                 <a class="btn btn-sm btn-outline-secondary me-2" href="#" onclick="ExportTableToCSV('#estado_de_ventas table.results')">
                                     Descargar
                                 </a>
-                                <div class="dropdown">
-                                    <button class="btn btn-sm btn-outline-secondary dropdown-toggle me-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Filtro
-                                    </button>
-                                    <ul class="dropdown-menu">
-                                        <li>
-                                            <form class="p-3">
-                                                <table>
-                                                    <tr>
-                                                        <td>Desde</td>
-                                                        <td><input type="date" name="from" class="form-control"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Hasta</td>
-                                                        <td><input type="date" name="to" class="form-control"></td>
-                                                    </tr>
-                                                </table>
-                                                <div class="mt-2">
-                                                    <button type="submit" class="btn btn-sm btn-outline-secondary w-100">Buscar</button>
-                                                </div>
-                                            </form>
-                                        </li>
-                                    </ul>
-                                </div>
+                                <a class="btn btn-sm btn-outline-secondary me-2" href="#" data-bs-toggle="modal" data-bs-target="#component_report1_filters">
+                                    Filtros
+                                </a>
                             </div>
                         </div>
         
                         <div class="mt-2 notifications"></div>
                         <table id="report1" class="table"></table>
+                    </div>
+
+                    <!-- Report1: Filter-->
+                    <div id="component_report1_filters" class="modal" tabindex="-1">
+                        <form class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Filtros</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="notifications"></div>
+                                    <table class="table table-striped">
+                                        <tr>
+                                            <td>Desde</td>
+                                            <td><input type="date" name="from" class="form-control"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Hasta</td>
+                                            <td><input type="date" name="to" class="form-control"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Supervisor</td>
+                                            <td><select name="supervisor" class="form-select select_supervisor"></select></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Campa&ntilde;a</td>
+                                            <td><select name="campaign" class="form-select select_campaign"></select></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                    <button type="submit" class="btn btn-primary">Actualizar</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                       
                 </section>
