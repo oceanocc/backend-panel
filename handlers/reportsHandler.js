@@ -33,8 +33,10 @@ router.get('/api/reports/1', isAuthenticated, async (req, res) =>
             FROM asterisk.vicidial_agent_log s
             JOIN asterisk.vicidial_users vu ON vu.user = s.user
             ${supervisor == '' ? '' : `JOIN supervisores_grupos sp ON sp.grupo = s.user_group`}
+            ${supervisor == '' ? '' : `JOIN supervisores sup ON sup.id = sp.id_supervisor`}
             WHERE 
                 s.event_time BETWEEN ? AND ? + INTERVAL 1 DAY
+                ${supervisor == '' ? '' : `AND sup.identificador = ?`}
                 ${campaign == 'all' ? '' : `AND s.campaign_id = ?`}
             GROUP BY s.user
         `, parameters);
