@@ -1,16 +1,14 @@
 
-// User groups
-let userGroups = 
+// Supervisors
+let supervisors = 
 [
     {
         id: "damaglys_guerra"
         ,name: "Damaglys Guerra"
-        ,groups: ["G-DAMAGLYSG", "G-DAMAGLYSG_ESPECIAL", "G-DAMAGLYSG_MANUAL"]
     }
     ,{
         id: "jose_rivasl"
         ,name: "José Rivas Labrador"
-        ,groups: ["G-JOSERL", "G-JOSERL_ESPECIAL", "G-JOSERL_MANUAL"]
     }
 ];
 
@@ -30,9 +28,9 @@ $(function()
     function SetupSupervisors()
     {
         $('.select_supervisor').append(`<option value="all" selected>-- Todo --</option>`);
-        for(let group of userGroups)
+        for(let supervisor of supervisors)
         {
-            $('.select_supervisor').append(`<option value="${group.id}">${group.name}</option>`);
+            $('.select_supervisor').append(`<option value="${supervisor.id}">${supervisor.name}</option>`);
         }
     }
     SetupSupervisors();
@@ -97,19 +95,7 @@ $(function()
             return;
         }
 
-        // Setup supervisor groups
-        let supervisorGroups = "";
-        for(let group of userGroups)
-        {
-            if (supervisor == group.id)
-            {
-                supervisorGroups = group.groups.join("\",\"");
-                break;
-            }
-        }
-        if(supervisorGroups != "") supervisorGroups = `"${supervisorGroups}"`;
-        
-        fetch(`/api/reports/1?from=${from}&to=${to}&campaign=${campaign}&supervisorGroups=${supervisorGroups}`,)
+        fetch(`/api/reports/1?from=${from}&to=${to}&campaign=${campaign}&supervisor=${supervisor}`,)
         .then(response =>
         {
             if(response.ok)

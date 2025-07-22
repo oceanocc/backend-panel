@@ -7,10 +7,14 @@ const router = express.Router();
 // Report1: Agents time
 router.get('/api/reports/1', isAuthenticated, async (req, res) =>
 {
-    const { from, to, supervisorGroups, campaign } = req.query;
+    const { from, to, supervisor, campaign } = req.query;
 
     try
     {
+        let parameters = [from, to];
+        if (supervisor != '') parameters.push(supervisor);
+        if (campaign != 'all') parameters.push(campaign);
+
         const [rows] = await pool.query(`
             SELECT
                 s.user AS 'cedula'
@@ -28,12 +32,12 @@ router.get('/api/reports/1', isAuthenticated, async (req, res) =>
                 ,ROUND(SUM(IF(s.sub_status='LOGIN',s.pause_sec,0))/3600, 2) AS 'login'
             FROM asterisk.vicidial_agent_log s
             JOIN asterisk.vicidial_users vu ON vu.user = s.user
+            ${supervisor == '' ? '' : `JOIN supervisores_grupos sp ON sp.grupo = s.user_group`}
             WHERE 
                 s.event_time BETWEEN ? AND ? + INTERVAL 1 DAY
-                ${supervisorGroups == '' ? '' : `AND s.user_group IN (?)`}
                 ${campaign == 'all' ? '' : `AND s.campaign_id = ?`}
             GROUP BY s.user
-        `, [from, to, supervisorGroups, campaign]);
+        `, parameters);
         res.json({ data: rows });
     }
     catch (error)
