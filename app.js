@@ -38,7 +38,7 @@ app.use(session({
     cookie: { secure: false, httpOnly: true }
 }));
 app.use(cors({
-    origin: 'https://oceanocc.ddns.net'
+    origin: 'https://oceanocc.com'
 }));
 
 // Routes
