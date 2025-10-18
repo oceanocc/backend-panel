@@ -8,7 +8,7 @@
         <meta name="generator" content="Hugo 0.88.1">
         <title>OceanoCC Dashboard</title>
 
-        <link rel="icon" href="/assets/img/favicon.png" type="image/png">
+        <link rel="icon" href="assets/img/favicon.png" type="image/png">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
         <link href="https://cdn.datatables.net/2.3.2/css/dataTables.dataTables.min.css" rel="stylesheet" crossorigin="anonymous">
 
@@ -16,7 +16,7 @@
         <script src="https://cdn.datatables.net/2.3.2/js/dataTables.min.js"  crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 
-        <link href="/assets/css/dashboard.css" rel="stylesheet">
+        <link href="assets/css/dashboard.css" rel="stylesheet">
         <style>
             .bd-placeholder-img {
                 font-size: 1.125rem;
@@ -59,6 +59,12 @@
                                 Tiempos de agentes
                             </a>
                         </li>
+                        <!--<li class="nav-item">
+                            <a id="report2_btn" class="nav-link" href="#" onclick="menu('report2')">
+                                <span data-feather="home"></span>
+                                Ventas en formulario
+                            </a>
+                        </li>-->
                     </ul>
 
                 </div>
@@ -76,7 +82,7 @@
                                 <a class="btn btn-sm btn-outline-secondary me-2" href="#" onclick="$('#component_report1 form').submit();">
                                     Actualizar
                                 </a>
-                                <a class="btn btn-sm btn-outline-secondary me-2" href="#" onclick="ExportTableToCSV('#estado_de_ventas table.results')">
+                                <a class="btn btn-sm btn-outline-secondary me-2" href="#" onclick="ExportTableToCSV('#report1')">
                                     Descargar
                                 </a>
                                 <a class="btn btn-sm btn-outline-secondary me-2" href="#" data-bs-toggle="modal" data-bs-target="#component_report1_filters">
@@ -128,6 +134,68 @@
                       
                 </section>
 
+                <section id="report2_section">
+
+                    <!-- Report2: Read -->
+                    <div id="component_report2">
+                        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                            <h1 class="h2">Ventas en formulario</h1>
+                            <div class="btn-toolbar mb-2 mb-md-0">
+                                <a class="btn btn-sm btn-outline-secondary me-2" href="#" onclick="$('#component_report2 form').submit();">
+                                    Actualizar
+                                </a>
+                                <a class="btn btn-sm btn-outline-secondary me-2" href="#" onclick="ExportTableToCSV('#report2')">
+                                    Descargar
+                                </a>
+                                <a class="btn btn-sm btn-outline-secondary me-2" href="#" data-bs-toggle="modal" data-bs-target="#component_report2_filters">
+                                    Filtros
+                                </a>
+                            </div>
+                        </div>
+        
+                        <div class="mt-2 notifications"></div>
+                        <table id="report2" class="table"></table>
+                    </div>
+
+                    <!-- Report2: Filter-->
+                    <div id="component_report2_filters" class="modal" tabindex="-1">
+                        <form class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Filtros</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="notifications"></div>
+                                    <table class="table table-striped">
+                                        <tr>
+                                            <td>Desde</td>
+                                            <td><input type="date" name="from" class="form-control"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Hasta</td>
+                                            <td><input type="date" name="to" class="form-control"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Supervisor</td>
+                                            <td><select name="supervisor" class="form-select select_supervisor"></select></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Campa&ntilde;a</td>
+                                            <td><select name="campaign" class="form-select select_campaign"></select></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                    <button type="submit" class="btn btn-primary">Actualizar</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                      
+                </section>
+
             </main>
         </div>
     </div>
@@ -136,10 +204,10 @@
     <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js" integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE" crossorigin="anonymous"></script>
     <script src="https://josefelixrc7.github.io/wtools/wtools.js"></script>
 
-    <script src="/assets/js/main.js"></script>
-    <script src="/assets/js/events/login.js"></script>
-    <script src="/assets/js/events/reports.js"></script>
-    <script src="/assets/js/download_csv.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/events/login.js"></script>
+    <script src="assets/js/events/reports.js"></script>
+    <script src="assets/js/download_csv.js"></script>
     <script>
         $(document).ready(function()
         {
@@ -148,7 +216,7 @@
             {
                 if(!result) 
                 {
-                    location.href = "/login";
+                    location.href = "login";
                     return;
                 }
 
@@ -161,7 +229,7 @@
                 fetch('/api/logout', {method: 'DELETE'})
                 .then(response =>
                 {
-                    location.href = '/login/';
+                    location.href = 'login/';
                 })
                 .catch(error =>
                 {
