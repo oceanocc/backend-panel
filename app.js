@@ -6,16 +6,12 @@ import fs from 'fs';
 import cors from 'cors';
 import session from 'express-session';
 import cookieParser from 'cookie-parser';
-import path from 'path';
-import { fileURLToPath } from 'url';
 
 import authHandler from './handlers/authHandler.js';
 import salesStatesHandler from './handlers/salesStatesHandler.js';
-import reportsHandler from './handlers/reportsHandler.js';
+import landingEntries from './handlers/landingEntries.js';
 
 dotenv.config();
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 // Lee los archivos de certificado y clave
 const privateKey = fs.readFileSync(process.env.KEY, 'utf8');
@@ -42,12 +38,11 @@ app.use(cors({
 }));
 
 // Routes
-app.use(express.static(path.join(__dirname, 'frontend')));
 app.use(authHandler);
 app.use(salesStatesHandler);
-app.use(reportsHandler);
+app.use(landingEntries);
 
 httpsServer.listen(process.env.PORT, () =>
 {
-    console.log(`oceanocc-backend ${process.env.PORT}`);
+    console.log(`oceanocc-backend-panel ${process.env.PORT}`);
 });
