@@ -16,7 +16,7 @@ handler.post('/panelSales', validateApiKey, async (req, res) =>
 
         // Verify if the date has sales saved
         const results = await pool.query('SELECT * FROM ventas WHERE fecha_venta = ?', [ventas[0].fecha_venta]);
-        if (results.length = 0)
+        if (results.length > 0)
         {
             res.status(401).json({ error: 'Esta fecha ya tiene ventas cargadas, carguelas manualmente' });
             return;
