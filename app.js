@@ -10,6 +10,7 @@ import cookieParser from 'cookie-parser';
 import authHandler from './handlers/authHandler.js';
 import salesStatesHandler from './handlers/salesStatesHandler.js';
 import landingEntries from './handlers/landingEntries.js';
+import panelSales from './handlers/panelSales.js';
 
 dotenv.config();
 
@@ -41,6 +42,7 @@ app.use(cors({
 app.use(authHandler);
 app.use(salesStatesHandler);
 app.use(landingEntries);
+app.use(panelSales);
 
 httpsServer.listen(process.env.PORT, () =>
 {
