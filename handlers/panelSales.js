@@ -9,24 +9,27 @@ handler.post('/panelSales', validateApiKey, async (req, res) =>
 {
     try
     {
-        const { usuario, telefono, fecha_venta } = req.body;
-        // Empty verification
-        if (!usuario || !telefono || !operadora || !fecha_venta)
+        const ventas = req.body;
+
+        // Blank ventas_pre
+        await pool.query(`TRUNCATE TABLE ventas_pre`);
+
+        // Save ventas
+        for(const venta of ventas)
         {
-            return res.status(400).json({ error: 'Faltan datos obligatorios.' });
+            const { usuario, telefono, fecha_venta } = venta;
+            // Empty verification
+            if (!usuario || !telefono || !fecha_venta)
+            {
+                return res.status(400).json({ error: 'Faltan datos obligatorios.' });
+            }
+        
+            await pool.query
+            (
+                `INSERT INTO ventas_pre (usuario, dn, fecha_venta) VALUES (?, ?, ?)`
+                ,[usuario, telefono, fecha_venta]
+            );    
         }
-    
-        await pool.query
-        (
-            `
-                INSERT INTO ventas (id_usuario, dn, fecha_venta)
-                SELECT  u.id, vp.dn, vp.fecha_venta
-                FROM ventas_pre vp
-                JOIN usuarios u ON u.usuario = v2.usuario
-            `
-            ,[usuario, telefono, fecha_venta]
-        );
-    
         res.json({ message: 'Ok.' });
     }
     catch (error)
