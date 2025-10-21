@@ -14,8 +14,14 @@ handler.post('/panelSales', validateApiKey, async (req, res) =>
         // Blank ventas_pre
         await pool.query(`TRUNCATE TABLE ventas_pre`);
 
+        // Verify if array is not empty
+        if (ventas.length === 0)
+        {
+            return res.status(400).json({ error: 'El array de ventas está vacío.' });
+        }
+
         // Verify if the date has sales saved
-        const results = await pool.query('SELECT * FROM ventas WHERE fecha_venta = ?', [ventas[0].fecha_venta]);
+        const [results] = await pool.query('SELECT * FROM ventas WHERE fecha_venta = ?', [ventas[0].fecha_venta]);
         if (results.length > 0)
         {
             res.status(401).json({ error: 'Esta fecha ya tiene ventas cargadas, carguelas manualmente' });
