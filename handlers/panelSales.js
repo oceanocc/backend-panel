@@ -4,8 +4,7 @@ import { validateApiKey } from '../middleware/authMiddleware.js';
 
 const handler = express.Router();
 
-// /panelSales
-handler.post('/panelSales', validateApiKey, async (req, res) =>
+const panelSalesFunction = async function(req, res, save)
 {
     try
     {
@@ -46,13 +45,17 @@ handler.post('/panelSales', validateApiKey, async (req, res) =>
         }
 
         // Save to ventas official
-        await pool.query
-        (`
-            INSERT INTO ventas (id_usuario, dn, fecha_venta)
-            SELECT  u.id, v2.dn, v2.fecha_venta
-            FROM ventas_pre v2
-            JOIN usuarios u ON u.usuario = v2.usuario
-        `);    
+        if (save)
+        {
+            await pool.query
+            (`
+                INSERT INTO ventas (id_usuario, dn, fecha_venta)
+                SELECT  u.id, v2.dn, v2.fecha_venta
+                FROM ventas_pre v2
+                JOIN usuarios u ON u.usuario = v2.usuario
+            `);    
+        }
+
         res.json({ message: 'Ok.' });
     }
     catch (error)
@@ -60,6 +63,18 @@ handler.post('/panelSales', validateApiKey, async (req, res) =>
         console.error('Error inserting new panel sales:', error);
         res.status(500).json({ error: 'Error interno del servidor' });
     }
+}
+
+// /panelSales
+handler.post('/panelSales', validateApiKey, async (req, res) =>
+{
+    await panelSalesFunction(req, res, true);
+});
+
+// /panelSalesN
+handler.post('/panelSalesN', validateApiKey, async (req, res) =>
+{
+    await panelSalesFunction(req, res, false);
 });
 
 export default handler;
